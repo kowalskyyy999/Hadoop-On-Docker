@@ -1,0 +1,26 @@
+<configuration>
+	<property>
+		<name>dfs.namenode.name.dir</name>
+		<value>/usr/local/etc/hadoop-3.2.4/data/nameNode</value>
+	</property>
+	<property>
+		<name>dfs.datanode.name.dir</name>
+		<value>/usr/local/etc/hadoop-3.2.4/data/dataNode</value>
+	</property>
+	<property>
+		<name>dfs.namenode.checkpoint.dir</name>
+		<value>/usr/local/etc/hadoop-3.2.4/data/nameNodeSecondary</value>
+	</property>
+	<property>
+		<name>dfs.namenode.edits.dir</name>
+		<value>/usr/local/etc/hadoop-3.2.4/data/nameNode</value>
+	</property>
+	<property>
+		<name>dfs.replication</name>
+		<value>1</value>
+	</property>
+	<property>
+		<name>dfs.permissions.enabled</name>
+		<value>false</value>
+	</property>
+</configuration>
