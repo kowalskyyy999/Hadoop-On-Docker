@@ -1,14 +1,15 @@
 FROM ubuntu:20.04
 
-ARG HADOOP_VERSION=3.2.4
+ARG HADOOP_VERSION
 
-RUN useradd -ms /bin/bash hdfs
-
-RUN apt-get update && \
-    apt-get install -y wget python3.8 software-properties-common
+RUN apt-get clean
 
 RUN apt-get update && \
-    apt-get upgrade -y
+    apt-get upgrade -y && \
+    apt-get install -y curl wget software-properties-common
+
+RUN apt-get update && \
+    apt-get upgrade -y 
 
 RUN apt-get install -y openjdk-8-jdk-headless
 
@@ -44,18 +45,19 @@ ENV HADOOP_PID_DIR=${HADOOP_HOME}/tmp
 
 RUN export HADOOP_CLASSPATH=$(hadoop classpath)
 
-# # RUN apt-get update && \
-# #     apt-get upgrade -y
+COPY conf/core-site.xml ${HADOOP_HOME}/etc/hadoop/core-site.xml
+COPY conf/hdfs-site.xml ${HADOOP_HOME}/etc/hadoop/hdfs-site.xml
+COPY conf/mapred-site.xml ${HADOOP_HOME}/etc/hadoop/mapred-site.xml
+COPY conf/yarn-site.xml ${HADOOP_HOME}/etc/hadoop/yarn-site.xml
 
-COPY hadoop/core-site.xml ${HADOOP_HOME}/etc/hadoop/core-site.xml
-COPY hadoop/hdfs-site.xml ${HADOOP_HOME}/etc/hadoop/hdfs-site.xml
-COPY hadoop/mapred-site.xml ${HADOOP_HOME}/etc/hadoop/mapred-site.xml
-COPY hadoop/yarn-site.xml ${HADOOP_HOME}/etc/hadoop/yarn-site.xml
+CMD source ~/.bashrc
 
-ADD datanode.sh /datanode.sh
+# ENTRYPOINT [ "cd", "${HADOOP_HOME}}" ]
 
-RUN chmod a+x /datanode.sh
+# ADD datanode.sh /datanode.sh
 
-EXPOSE 9000
+# RUN chmod a+x /datanode.sh
 
-CMD ["/datanode.sh"]
+# EXPOSE 9000
+
+# CMD ["/datanode.sh"]

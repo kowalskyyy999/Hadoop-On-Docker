@@ -1,0 +1,5 @@
+ARG HADOOP_VERSION
+
+FROM hadoop:${HADOOP_VERSION}
+
+CMD $HADOOP_HOME/bin/hdfs --config $HADOOP_CONF_DIR datanode
