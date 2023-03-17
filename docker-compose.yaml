@@ -1,0 +1,69 @@
+version: '3'
+
+networks:
+  hadoop-network:
+    driver: bridge
+
+services:
+  namenode:
+    image: namenode-hadoop:$HADOOP_VERSION
+    build:
+      context: ./image/namenode
+      args:
+        - HADOOP_VERSION=$HADOOP_VERSION
+    container_name: namenode
+    restart: always
+    ports:
+      - 9870:9870
+      - 9000:9000
+    networks:
+      - hadoop-network
+
+  datanode1:
+    image: datanode1-hadoop:$HADOOP_VERSION
+    build: 
+      context: ./image/datanode
+      args:
+        - HADOOP_VERSION=$HADOOP_VERSION
+    container_name: datanode1
+    restart: always
+    depends_on:
+      - namenode
+    networks:
+      - hadoop-network
+
+  datanode2:
+    image: datanode2-hadoop:$HADOOP_VERSION
+    build: 
+      context: ./image/datanode
+      args:
+        - HADOOP_VERSION=$HADOOP_VERSION
+    container_name: datanode2
+    restart: always
+    depends_on:
+      - namenode
+    networks:
+      - hadoop-network      
+
+
+# services:
+#   namenode:
+#     build: 
+#       context: ./docker/namenode
+#       args:
+#         - HADOOP_VERSION=3.2.4
+#     container_name: namenode
+#     restart: always
+#     ports:
+#       - 9870:9870
+#       - 9000:9000
+
+#   datanode:
+#     build:
+#       context: ./docker/datanode
+#       args:
+#         - HADOOP_VERSION=3.2.4
+#     container_name: datanode
+#     restart: always
+#     depends_on:
+#       - namenode
