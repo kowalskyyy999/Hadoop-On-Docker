@@ -6,7 +6,7 @@ networks:
 
 services:
   namenode:
-    image: namenode-hadoop:$HADOOP_VERSION
+    image: namenode:$HADOOP_VERSION
     build:
       context: ./image/namenode
       args:
@@ -20,7 +20,7 @@ services:
       - hadoop-network
 
   datanode1:
-    image: datanode1-hadoop:$HADOOP_VERSION
+    image: datanode1:$HADOOP_VERSION
     build: 
       context: ./image/datanode
       args:
@@ -33,7 +33,7 @@ services:
       - hadoop-network
 
   datanode2:
-    image: datanode2-hadoop:$HADOOP_VERSION
+    image: datanode2:$HADOOP_VERSION
     build: 
       context: ./image/datanode
       args:
@@ -43,27 +43,43 @@ services:
     depends_on:
       - namenode
     networks:
-      - hadoop-network      
+      - hadoop-network
 
+  resourcemanager:
+    image: resourcemanager:$HADOOP_VERSION
+    build: 
+      context: ./image/resourcemanager
+      args:
+        - HADOOP_VERSION=$HADOOP_VERSION
+    container_name: resourcemanager
+    restart: always
+    ports:
+      - 8088:8088
+    networks:
+      - hadoop-network
 
-# services:
-#   namenode:
-#     build: 
-#       context: ./docker/namenode
-#       args:
-#         - HADOOP_VERSION=3.2.4
-#     container_name: namenode
-#     restart: always
-#     ports:
-#       - 9870:9870
-#       - 9000:9000
+  nodemanager1:
+    image: nodemanager1:$HADOOP_VERSION
+    build:
+      context: ./image/nodemanager
+      args:
+        - HADOOP_VERSION=$HADOOP_VERSION
+    container_name: nodemanager1
+    restart: always
+    networks:
+      - hadoop-network
+    depends_on:
+      - resourcemanager
 
-#   datanode:
-#     build:
-#       context: ./docker/datanode
-#       args:
-#         - HADOOP_VERSION=3.2.4
-#     container_name: datanode
-#     restart: always
-#     depends_on:
-#       - namenode
+  nodemanager2:
+    image: nodemanager2:$HADOOP_VERSION
+    build:
+      context: ./image/nodemanager
+      args:
+        - HADOOP_VERSION=$HADOOP_VERSION
+    container_name: nodemanager2
+    restart: always
+    networks:
+      - hadoop-network
+    depends_on:
+      - resourcemanager
