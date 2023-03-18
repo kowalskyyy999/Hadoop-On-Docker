@@ -49,6 +49,21 @@ COPY conf/core-site.xml ${HADOOP_HOME}/etc/hadoop/core-site.xml
 COPY conf/hdfs-site.xml ${HADOOP_HOME}/etc/hadoop/hdfs-site.xml
 COPY conf/mapred-site.xml ${HADOOP_HOME}/etc/hadoop/mapred-site.xml
 COPY conf/yarn-site.xml ${HADOOP_HOME}/etc/hadoop/yarn-site.xml
+# COPY conf/container-executor.cfg  ${HADOOP_HOME}/etc/hadoop/container-executor.cfg 
+
+ENV TZ="Asia/Jakarta"
+
+RUN sysctl -w net.ipv6.conf.all.disable_ipv6=1
+RUN sysctl -w net.ipv6.conf.default.disable_ipv6=1
+RUN sysctl -w net.ipv6.conf.lo.disable_ipv6=1
+
+# RUN chmod 6050 ${HADOOP_HOME}/etc/hadoop/container-executor.cfg
+
+# RUN usermod -g yarn yarn
+
+# RUN usermod -a -G root yarn
+
+# RUN chown -R root ${HADOOP_HOME}
 
 CMD source ~/.bashrc
 
