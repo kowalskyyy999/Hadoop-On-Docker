@@ -23,4 +23,20 @@
 		<name>dfs.permissions.enabled</name>
 		<value>false</value>
 	</property>
+	<property>
+		<name>dfs.datanode.hostname</name>
+		<value>namenode</value>
+	</property>
+	<property>
+		<name>dfs.namenode.rpc-bind-host</name>
+		<value>namenode</value>
+	</property>
+	<property>
+		<name>dfs.namenode.servicerpc-bind-host</name>
+		<value>namenode</value>
+	</property>
+	<property>
+		<name>dfs.namenode.lifeline.rpc-bind-host</name>
+		<value>namenode</value>
+	</property>
 </configuration>
