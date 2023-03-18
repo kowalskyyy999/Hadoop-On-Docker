@@ -1,11 +1,11 @@
 <configuration>
 	<property>
 		<name>yarn.resourcemanager.hostname</name>
-		<value>localhost</value>
+		<value>resourcemanager</value>
 	</property>
 	<property>
 		<name>yarn.nodemanager.hostname</name>
-		<value>localhost</value>
+		<value>0.0.0.0</value>
 	</property>
 	<property>
 		<name>yarn.application.classpath</name>
@@ -19,12 +19,12 @@
         <name>yarn.nodemanager.aux-services</name>
         <value>mapreduce_shuffle</value>
 	</property>
-	<property>
+	<!-- <property>
 		<name>yarn.nodemanager.container-executor.class</name>
 		<value>org.apache.hadoop.yarn.server.nodemanager.LinuxContainerExecutor</value>
 	</property>
 	<property>
-		<name>yarn.node.manager.linux-container-executor.group</name>
+		<name>yarn.nodemanager.linux-container-executor.group</name>
 		<value>hadoop</value>
 	</property>
 	<property>
@@ -61,7 +61,7 @@
 
   	<property>
   	  <name>yarn.nodemanager.runtime.linux.docker.allowed-container-networks</name>
-  	  <value>host,none,bridge</value>
+  	  <value>host,none,bridge,hadoop-network</value>
   	  <description>
   	    Optional. A comma-separated set of networks allowed when launching
   	    containers. Valid values are determined by Docker networks available from
@@ -71,7 +71,7 @@
 
   	<property>
   	  <name>yarn.nodemanager.runtime.linux.docker.default-container-network</name>
-  	  <value>host</value>
+  	  <value>hadoop-network</value>
   	  <description>
   	    The network used when launching Docker containers when no
   	    network is specified in the request. This network must be one of the
@@ -167,5 +167,5 @@
   	    to any group with a GID lower than this value will not be allowed to
   	    launch containers when user remapping is enabled.
   	  </description>
-  	</property>
+  	</property> -->
 </configuration>
