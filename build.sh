@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./.env
+. ./.env
 
 docker network rm hadoop-network
 
