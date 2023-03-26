@@ -43,36 +43,28 @@ ENV HADOOP_OPTS="-Djava.library.path=${HADOOP_HOME}/lib/native"
 ENV HADOOP_LOG_DIR=${HADOOP_HOME}/logs
 ENV HADOOP_PID_DIR=${HADOOP_HOME}/tmp
 
-RUN export HADOOP_CLASSPATH=$(hadoop classpath)
 
-COPY conf/core-site.xml ${HADOOP_HOME}/etc/hadoop/core-site.xml
-COPY conf/hdfs-site.xml ${HADOOP_HOME}/etc/hadoop/hdfs-site.xml
-COPY conf/mapred-site.xml ${HADOOP_HOME}/etc/hadoop/mapred-site.xml
-COPY conf/yarn-site.xml ${HADOOP_HOME}/etc/hadoop/yarn-site.xml
-# COPY conf/container-executor.cfg  ${HADOOP_HOME}/etc/hadoop/container-executor.cfg 
+ENV HADOOP_CLASSPATH=${HADOOP_HOME}/share/hadoop/client/*.jar:${HADOOP_HOME}/share/hadoop/common/*.jar:${HADOOP_CLASSPATH}/share/hadoop/common/lib/*.jar:${HADOOP_HOME}/share/hadoop/hdfs/*.jar:${HADOOP_HOME}/share/hadoop/hdfs/lib/*.jar:${HADOOP_HOME}/share/hadoop/mapreduce/*.jar:${HADOOP_HOME}/share/hadoop/mapreduce/lib/*.jar:${HADOOP_HOME}/share/hadoop/yarn/*.jar:${HADOOP_HOME}/share/hadoop/yarn/lib/*.jar
+
+COPY hadoop-conf/*.xml ${HADOOP_HOME}/etc/hadoop/
 
 ENV TZ="Asia/Jakarta"
+
+RUN wget https://dlcdn.apache.org/tez/0.10.2/apache-tez-0.10.2-bin.tar.gz
+
+RUN set -x && \
+    tar -zxvf apache-tez-0.10.2-bin.tar.gz && \
+    mv apache-tez-0.10.2-bin /usr/local/etc/apache-tez-0.10.2-bin && \
+    rm apache-tez-0.10.2-bin.tar.gz
+
+ENV TEZ_HOME="/usr/local/etc/apache-tez-0.10.2-bin"
+ENV TEZ_CONF_DIR=${TEZ_HOME}/conf
+ENV HADOOP_CLASSPATH=$HADOOP_CLASSPATH:$TEZ_CONF_DIR:$TEZ_HOME/*.jar:$TEZ_HOME/lib/*.jar
+
+COPY tez-conf/tez-site.xml ${TEZ_HOME}/conf/tez-site.xml
 
 RUN sysctl -w net.ipv6.conf.all.disable_ipv6=1
 RUN sysctl -w net.ipv6.conf.default.disable_ipv6=1
 RUN sysctl -w net.ipv6.conf.lo.disable_ipv6=1
 
-# RUN chmod 6050 ${HADOOP_HOME}/etc/hadoop/container-executor.cfg
-
-# RUN usermod -g yarn yarn
-
-# RUN usermod -a -G root yarn
-
-# RUN chown -R root ${HADOOP_HOME}
-
 CMD source ~/.bashrc
-
-# ENTRYPOINT [ "cd", "${HADOOP_HOME}}" ]
-
-# ADD datanode.sh /datanode.sh
-
-# RUN chmod a+x /datanode.sh
-
-# EXPOSE 9000
-
-# CMD ["/datanode.sh"]
