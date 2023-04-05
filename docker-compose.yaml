@@ -73,6 +73,8 @@ services:
     restart: always
     depends_on:
       - resourcemanager
+    ports:
+      - 8042:8042
     networks:
       - bigdata
 
@@ -86,6 +88,41 @@ services:
     restart: always
     depends_on:
       - resourcemanager
+    networks:
+      - bigdata
+
+  spark-master:
+    image: spark-master:$SPARK_VERSION
+    build:
+      context: ./image/spark/master
+      args:
+        - HADOOP_VERSION=$HADOOP_VERSION
+    container_name: spark-master
+    restart: always
+    ports:
+      - 8080:8080
+      - 7077:7077
+      - 4040:4040
+    depends_on:
+      - namenode
+      - resourcemanager
+    networks:
+      - bigdata 
+
+  spark-worker1:
+    image: spark-worker1:$SPARK_VERSION
+    build: 
+      context: ./image/spark/worker
+      args:
+        - HADOOP_VERSION=$HADOOP_VERSION
+    container_name: spark-worker1 
+    restart: always
+    environment:
+      - SPARK_MASTER_HOST=spark-master
+    ports:
+      - 8081:8081
+    depends_on:
+      - spark-master
     networks:
       - bigdata
 
