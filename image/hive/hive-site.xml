@@ -3653,7 +3653,7 @@
   </property>
   <property>
     <name>hive.compute.query.using.stats</name>
-    <value>true</value>
+    <value>false</value>
     <description>
       When set to true Hive will answer a few queries like count(1) purely using stats
       stored in metastore. For basic stats collection turn on the config hive.stats.autogather to true.
@@ -4321,7 +4321,7 @@
   </property>
   <property>
     <name>hive.server2.tez.default.queues</name>
-    <value/>
+    <value>root.development</value>
     <description>
       A list of comma separated values corresponding to YARN queues of the same name.
       When HiveServer2 is launched in Tez mode, this configuration needs to be set

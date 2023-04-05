@@ -6,7 +6,6 @@ RUN wget https://dlcdn.apache.org/hive/hive-3.1.3/apache-hive-3.1.3-bin.tar.gz
 
 RUN set -x && \
     tar -zxvf apache-hive-3.1.3-bin.tar.gz && \
-    mv apache-hive-3.1.3-bin /usr/local/etc/apache-hive-3.1.3-bin && \
     rm apache-hive-3.1.3-bin.tar.gz
 
 ENV HIVE_HOME="/usr/local/etc/apache-hive-3.1.3-bin"
