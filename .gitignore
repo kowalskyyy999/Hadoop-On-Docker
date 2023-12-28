@@ -2,3 +2,4 @@
 *.bak
 /docker
 *.bak.*
+/image/base/*.gz

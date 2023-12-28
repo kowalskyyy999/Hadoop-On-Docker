@@ -1,7 +1,7 @@
 version: '3.7'
 
 networks:
-  bigdata:
+  starrocks-net:
     driver: bridge
     enable_ipv6: false
     external: true
@@ -22,7 +22,7 @@ services:
       - 9870:9870
       - 9000:9000
     networks:
-      - bigdata
+      - starrocks-net
 
   datanode1:
     image: datanode:$HADOOP_VERSION
@@ -34,109 +34,109 @@ services:
     depends_on:
       - namenode
     networks:
-      - bigdata
+      - starrocks-net
 
-  datanode2:
-    image: datanode:$HADOOP_VERSION
-    build: 
-      context: ./image/datanode
-      args:
-        - HADOOP_VERSION=$HADOOP_VERSION
-    container_name: datanode2
-    depends_on:
-      - namenode
-    networks:
-      - bigdata
+  # datanode2:
+  #   image: datanode:$HADOOP_VERSION
+  #   build: 
+  #     context: ./image/datanode
+  #     args:
+  #       - HADOOP_VERSION=$HADOOP_VERSION
+  #   container_name: datanode2
+  #   depends_on:
+  #     - namenode
+  #   networks:
+  #     - starrocks-net
 
-  resourcemanager:
-    image: resourcemanager:$HADOOP_VERSION
-    build: 
-      context: ./image/resourcemanager
-      args:
-        - HADOOP_VERSION=$HADOOP_VERSION
-    container_name: resourcemanager
-    restart: always
-    ports:
-      - 8088:8088
-    networks:
-      - bigdata
-    depends_on:
-      - namenode
+  # resourcemanager:
+  #   image: resourcemanager:$HADOOP_VERSION
+  #   build: 
+  #     context: ./image/resourcemanager
+  #     args:
+  #       - HADOOP_VERSION=$HADOOP_VERSION
+  #   container_name: resourcemanager
+  #   restart: always
+  #   ports:
+  #     - 8088:8088
+  #   networks:
+  #     - starrocks-net
+  #   depends_on:
+  #     - namenode
 
-  nodemanager1:
-    image: nodemanager:$HADOOP_VERSION
-    build:
-      context: ./image/nodemanager
-      args:
-        - HADOOP_VERSION=$HADOOP_VERSION
-    container_name: nodemanager1
-    restart: always
-    depends_on:
-      - resourcemanager
-    ports:
-      - 8042:8042
-    networks:
-      - bigdata
+  # nodemanager1:
+  #   image: nodemanager:$HADOOP_VERSION
+  #   build:
+  #     context: ./image/nodemanager
+  #     args:
+  #       - HADOOP_VERSION=$HADOOP_VERSION
+  #   container_name: nodemanager1
+  #   restart: always
+  #   depends_on:
+  #     - resourcemanager
+  #   ports:
+  #     - 8042:8042
+  #   networks:
+  #     - starrocks-net
 
-  nodemanager2:
-    image: nodemanager:$HADOOP_VERSION
-    build:
-      context: ./image/nodemanager
-      args:
-        - HADOOP_VERSION=$HADOOP_VERSION
-    container_name: nodemanager2
-    restart: always
-    depends_on:
-      - resourcemanager
-    networks:
-      - bigdata
+  # nodemanager2:
+  #   image: nodemanager:$HADOOP_VERSION
+  #   build:
+  #     context: ./image/nodemanager
+  #     args:
+  #       - HADOOP_VERSION=$HADOOP_VERSION
+  #   container_name: nodemanager2
+  #   restart: always
+  #   depends_on:
+  #     - resourcemanager
+  #   networks:
+  #     - starrocks-net
 
-  spark-master:
-    image: spark-master:$SPARK_VERSION
-    build:
-      context: ./image/spark/master
-      args:
-        - HADOOP_VERSION=$HADOOP_VERSION
-    container_name: spark-master
-    restart: always
-    ports:
-      - 8080:8080
-      - 7077:7077
-      - 4040:4040
-    depends_on:
-      - namenode
-      - resourcemanager
-    networks:
-      - bigdata 
+  # spark-master:
+  #   image: spark-master:$SPARK_VERSION
+  #   build:
+  #     context: ./image/spark/master
+  #     args:
+  #       - HADOOP_VERSION=$HADOOP_VERSION
+  #   container_name: spark-master
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
+  #     - 7077:7077
+  #     - 4040:4040
+  #   depends_on:
+  #     - namenode
+  #     - resourcemanager
+  #   networks:
+  #     - bigdata 
 
-  spark-worker1:
-    image: spark-worker1:$SPARK_VERSION
-    build: 
-      context: ./image/spark/worker
-      args:
-        - HADOOP_VERSION=$HADOOP_VERSION
-    container_name: spark-worker1 
-    restart: always
-    environment:
-      - SPARK_MASTER_HOST=spark-master
-    ports:
-      - 8081:8081
-    depends_on:
-      - spark-master
-    networks:
-      - bigdata
+  # spark-worker1:
+  #   image: spark-worker1:$SPARK_VERSION
+  #   build: 
+  #     context: ./image/spark/worker
+  #     args:
+  #       - HADOOP_VERSION=$HADOOP_VERSION
+  #   container_name: spark-worker1 
+  #   restart: always
+  #   environment:
+  #     - SPARK_MASTER_HOST=spark-master
+  #   ports:
+  #     - 8081:8081
+  #   depends_on:
+  #     - spark-master
+  #   networks:
+  #     - bigdata
 
-  hive:
-    image: hive:3.1.3
-    build:
-      context: ./image/hive
-      args:
-        - HADOOP_VERSION=$HADOOP_VERSION
-    container_name: hive
-    ports:
-      - 10000:10000
-    depends_on:
-      - namenode
-      - resourcemanager
-    networks:
-      - bigdata
+  # hive:
+  #   image: hive:3.1.3
+  #   build:
+  #     context: ./image/hive
+  #     args:
+  #       - HADOOP_VERSION=$HADOOP_VERSION
+  #   container_name: hive
+  #   ports:
+  #     - 10000:10000
+  #   depends_on:
+  #     - namenode
+  #     - resourcemanager
+  #   networks:
+  #     - bigdata

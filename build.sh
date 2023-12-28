@@ -9,3 +9,6 @@ docker build \
 	--build-arg SPARK_VERSION=$SPARK_VERSION \
 	--build-arg SPARK_HADOOP_VERSION=$SPARK_HADOOP_VERSION \
 	-t hadoop:$HADOOP_VERSION ./image/base/
+
+
+docker compose up -d --build --remove-orphans

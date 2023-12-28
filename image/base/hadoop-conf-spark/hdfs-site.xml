@@ -1,27 +1,19 @@
 <configuration>
 	<property>
 		<name>dfs.namenode.name.dir</name>
-		<value>file:///usr/local/etc/hadoop/data/nameNode</value>
+		<value>/usr/local/etc/hadoop-3.2.4/data/nameNode</value>
 	</property>
 	<property>
-		<name>dfs.datanode.data.dir</name>
-		<value>file:///usr/local/etc/hadoop/data/dataNode</value>
+		<name>dfs.datanode.name.dir</name>
+		<value>/usr/local/etc/hadoop-3.2.4/data/dataNode</value>
 	</property>
 	<property>
 		<name>dfs.namenode.checkpoint.dir</name>
-		<value>file:///usr/local/etc/hadoop/data/nameNodeSecondary</value>
-	</property>
-	<property>
-		<name>dfs.datanode.use.datanode.hostname</name>
-		<value>false</value>
-	</property>
-	<property>
-		<name>dfs.client.use.datanode.hostname</name>
-		<value>true</value>
+		<value>/usr/local/etc/hadoop-3.2.4/data/nameNodeSecondary</value>
 	</property>
 	<property>
 		<name>dfs.namenode.edits.dir</name>
-		<value>file:///usr/local/etc/hadoop/data/nameNode</value>
+		<value>/usr/local/etc/hadoop-3.2.4/data/nameNode</value>
 	</property>
 	<property>
 		<name>dfs.replication</name>
@@ -33,7 +25,7 @@
 	</property>
 	<property>
 		<name>dfs.datanode.hostname</name>
-		<value>datanode1</value>
+		<value>namenode</value>
 	</property>
 	<property>
 		<name>dfs.namenode.rpc-bind-host</name>
@@ -46,9 +38,5 @@
 	<property>
 		<name>dfs.namenode.lifeline.rpc-bind-host</name>
 		<value>namenode</value>
-	</property>
-	<property>
-		<name>dfs.client.local.interfaces</name>
-		<value>172.20.0.0/16</value>
 	</property>
 </configuration>
